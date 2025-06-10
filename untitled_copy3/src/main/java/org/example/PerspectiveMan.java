@@ -11,36 +11,36 @@ import org.springframework.data.annotation.Id;
 
 public class PerspectiveMan {
     @jakarta.persistence.Id
-    private Long id;
+    private static Long id;
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public static Long getId() {
         return id;
     }
 
-    private String name;
+    private static String name;
     public void setName(String name) {
         this.name = name;
     }
-    public String getName() {
+    public static String getName() {
         return name;
     }
 
-    private Long salary;
+    private static Long salary;
     public void setSalary(Long salary) {
         this.salary = salary;
     }
-    public Long getSalary() {
+    public static Long getSalary() {
         return salary;
     }
-    private Boolean married;
+    private static Boolean married;
     public void setMarried(Boolean married) {
         this.married = married;
     }
-    public Boolean getMarried() {
+    public static Boolean getMarried() {
         return married;
     }
 }

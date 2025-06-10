@@ -13,21 +13,21 @@ public class MainController {
     @Autowired
     private PerspectiveManRepo perspectiveManRepo;
     @GetMapping
-    public List<perspectiveManRepo> getAllPerspectiveMan() {
-        List<perspectiveManRepo> all = PerspectiveManRepo.findAll();
-        return all;
+    public List<PerspectiveMan> getAllPerspectiveMan() {
+        return perspectiveManRepo.findAll();//perspectiveManRepo> all = PerspectiveManRepo.findAll();
+        //return all;
     }
     // Метод для получения данных по ID
     @GetMapping("/{id}")
     public PerspectiveMan getPerspectiveManById(@PathVariable Long id) {
         // Логика для получения данных из БД по ID
-        return PerspectiveManRepo.findById(id).orElse(null);
+        return perspectiveManRepo.findById(id).orElse(null);
     }
     // Метод для добавления новых данных
     @PostMapping
     public PerspectiveMan createPerspectiveMan(@RequestBody PerspectiveMan perspectiveMan) {
         // Логика для добавления данных в БД
-        return PerspectiveManRepo.save(perspectiveMan);
+        return perspectiveManRepo.save(perspectiveMan);
     }
 
     // Метод для обновления данных
