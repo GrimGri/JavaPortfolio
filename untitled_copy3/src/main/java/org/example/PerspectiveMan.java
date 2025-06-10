@@ -1,10 +1,11 @@
 package org.example;
 
 public class PerspectiveMan {
-    Long salary = null;
-    String name = null;
-    Boolean married = null;
-
+    private Long id = null;
+    private Long salary = null;
+    private String name = null;
+    private Boolean married = null;
+/*
     public void setSalary(Long salary) {
         this.salary = salary;
     }
@@ -23,4 +24,6 @@ public class PerspectiveMan {
     public void getName (Boolean married){
         this.married = married;
     }
+
+ */
 }

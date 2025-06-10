@@ -2,10 +2,6 @@ package org.example;
 
 import java.io.File;//импорт класса для чтения файла
 import java.io.IOException;//импорт класса эксепшн
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springdoc.core.models.SwaggerUiConfigSpec;
-//import org.springdoc.core.models.SwaggerUiDefaultOptions;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -17,10 +13,10 @@ public class Main {
             FileFound found_file;
             found_file = new FileFound();
 
-            man1.salary = Long.parseLong(found_file.firstLine);
-            man1.name = found_file.secondLine;
-            man1.married = Boolean.parseBoolean(found_file.thirdLine);
-            System.out.print("Данные инициализированы\n Зарплата:" + man1.salary + "\tИмя:" + man1.name + "\tЖенат ли:" + man1.married);
+//            man1.salary = Long.parseLong(found_file.firstLine);
+//            man1.name = found_file.secondLine;
+//            man1.married = Boolean.parseBoolean(found_file.thirdLine);
+//            System.out.print("Данные инициализированы\n Зарплата:" + man1.salary + "\tИмя:" + man1.name + "\tЖенат ли:" + man1.married);
         }
         else {
             System.out.println("Файла нет");
