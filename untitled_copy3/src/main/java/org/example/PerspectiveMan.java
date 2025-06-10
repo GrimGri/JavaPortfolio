@@ -1,29 +1,46 @@
 package org.example;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+
+@Entity
+@Table(name = "perspectiveMan")
+
 public class PerspectiveMan {
-    private Long id;// = null;
-    private Long salary;// = null;
-    private String name;// = null;
-    private Boolean married;// = null;
-/*
-    public void setSalary(Long salary) {
-        this.salary = salary;
+    @jakarta.persistence.Id
+    private Long id;
+
+    public void setId(Long id) {
+        this.id = id;
     }
-    public void getSalary(Long salary) {
-        this.salary = salary;
+
+    public Long getId() {
+        return id;
     }
+
+    private String name;
     public void setName(String name) {
         this.name = name;
     }
-    public void getName(String name) {
-        this.name = name;
-    }
-    public void setMarried (Boolean married){
-        this.married = married;
-    }
-    public void getName (Boolean married){
-        this.married = married;
+    public String getName() {
+        return name;
     }
 
- */
+    private Long salary;
+    public void setSalary(Long salary) {
+        this.salary = salary;
+    }
+    public Long getSalary() {
+        return salary;
+    }
+    private Boolean married;
+    public void setMarried(Boolean married) {
+        this.married = married;
+    }
+    public Boolean getMarried() {
+        return married;
+    }
 }

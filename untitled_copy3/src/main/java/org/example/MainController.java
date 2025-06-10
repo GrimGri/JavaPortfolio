@@ -3,40 +3,45 @@ package org.example;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/perspectiveMan")
 
 public class MainController {
+    @Autowired
+    private PerspectiveManRepo perspectiveManRepo;
     @GetMapping
-    public List<PerspectiveMan> getAllData(){
-        return DataService.getAll();
+    public List<perspectiveManRepo> getAllPerspectiveMan() {
+        List<perspectiveManRepo> all = PerspectiveManRepo.findAll();
+        return all;
     }
     // Метод для получения данных по ID
     @GetMapping("/{id}")
-    public PerspectiveMan getDataById(@PathVariable Long id) {
+    public PerspectiveMan getPerspectiveManById(@PathVariable Long id) {
         // Логика для получения данных из БД по ID
-        return DataService.getById(id);
+        return PerspectiveManRepo.findById(id).orElse(null);
     }
     // Метод для добавления новых данных
     @PostMapping
-    public PerspectiveMan save(@RequestBody PerspectiveMan data) {
+    public PerspectiveMan createPerspectiveMan(@RequestBody PerspectiveMan perspectiveMan) {
         // Логика для добавления данных в БД
-        return DataService.save(data);
+        return PerspectiveManRepo.save(perspectiveMan);
     }
 
     // Метод для обновления данных
     @PutMapping("/{id}")
-    public PerspectiveMan update(@PathVariable Long id, @RequestBody PerspectiveMan data) {
+    public PerspectiveMan updatePerspectiveMan(@PathVariable Long id, @RequestBody PerspectiveMan perspectiveMan) {
         // Логика для обновления данных в БД
-        return DataService.update(id, data);
+        perspectiveMan.setId(id);//
+        return perspectiveManRepo.save(perspectiveMan);
     }
 
     // Метод для удаления данных
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void deletePerspectiveMan(@PathVariable Long id) {
         // Логика для удаления данных из БД
-        DataService.delete(id);
+        perspectiveManRepo.deleteById(id);
     }
 };
