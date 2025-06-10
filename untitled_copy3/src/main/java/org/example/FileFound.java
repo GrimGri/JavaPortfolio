@@ -8,7 +8,7 @@ import java.util.List;
 
 class FileFound {
 
-    String filePath = GlobalVars.adr;//"D:/test/test.txt";//чтение файла
+    String filePath = GlobalVars.adr;//чтение файла
     String firstLine = null;
     String secondLine = null;
     String thirdLine = null;
