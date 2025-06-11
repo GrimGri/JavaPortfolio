@@ -80,9 +80,10 @@ public class MainController {
     @ApiResponse(responseCode = "404", description = "Кандидат не найден")
     // Метод для удаления данных
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletePerspectiveMan(@PathVariable Long id, @RequestBody PerspectiveMan man) {
+    public ResponseEntity deletePerspectiveMan(@PathVariable Long id, @RequestBody PerspectiveMan man) {
         // Логика для удаления данных из БД
      //   perspectiveManRepo.deleteById(id);
-        return ResponseEntity.status(204).body(service.delete(man));
+        ResponseEntity<Object> body = ResponseEntity.status(204).body(service);
+        return body;
     }
 };
