@@ -63,11 +63,6 @@ public class MainController {
             @RequestBody PerspectiveManRequest request)
     {
         PerspectiveMan man = convertToEntity(request);//new PerspectiveMan();
-    //    man.setName(request.getName());
-    //    man.setSalary(request.getSalary());
-    //    man.setMarried(request.getMarried());
-//        PerspectiveMan man = toEntity(request);
-//        return ResponseEntity.status(201).body(service.create(man));
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(man));
     }
 
@@ -82,32 +77,13 @@ public class MainController {
             @PathVariable Long id,
             @RequestBody PerspectiveManRequest request) {
         PerspectiveMan updateTemplate = convertToEntity(request);//new PerspectiveMan();
-        //updateTemplate.setName(request.getName());
-        //updateTemplate.setSalary(request.getSalary());
-        //updateTemplate.setMarried(request.getMarried());
         return ResponseEntity.ok(service.update(id, updateTemplate));
-//                PerspectiveMan manDetails = convertToEntity(request);//new PerspectiveMan();
-//                manDetails.setName(request.getName());
-//                manDetails.setSalary(request.getSalary());
-//                manDetails.setMarried(request.getMarried());
-//                return ResponseEntity.ok(service.update(id, manDetails));
     }
-
-//    public void delete(Long id) {
-//        if (!repository.existsById(id)) {
-//            throw new EntityNotFoundException("PerspectiveMan not found with id: " + id);
-//        }
-//        repository.deleteById(id);
-//    }
-
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление личности")
     // Метод для удаления данных
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-//        if (!service.existsById(id)) {
-//            return ResponseEntity.notFound().build();
-//        }
     try {
         service.delete(id);
         return ResponseEntity.noContent().build();
