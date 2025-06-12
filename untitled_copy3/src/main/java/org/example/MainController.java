@@ -9,81 +9,67 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/api/perspectiveMan")
 @Tag(name = "Perspective Man API", description = "Управление перспективными личностями")
 public class MainController {
     @Autowired
-    private PerspectiveManRepo service;
+    private PerspectiveManService service;
 
+    @GetMapping
     @Operation(summary = "Получить всех кандидатов")
-    @ApiResponse(responseCode = "200", description = "Список кандидатов")
-    //static class MainControllerService {
-        
-    //}//perspectiveManRepo;
-    @GetMapping("/{id}")
     public List<PerspectiveMan> getAll() {
-        //return perspectiveManRepo.findAll();//perspectiveManRepo> all = PerspectiveManRepo.findAll();
-        //return all;
         return service.getAll();
     }
-    @Operation(summary = "Найти кандидата по ID")
-    @ApiResponse(responseCode = "200", description = "Найденный кандидат")
-    @ApiResponse(responseCode = "404", description = "Кандидат не найден")
-    // Метод для получения данных по ID
+
     @GetMapping("/{id}")
-    public PerspectiveMan getById(
+    @Operation(summary = "Найти кандидата по ID")
+    public ResponseEntity<PerspectiveMan> getById(
             @Parameter(description = "ID кандидата", example = "1")
             @PathVariable Long id)
     {
-            //@PathVariable Long id) {
-        // Логика для получения данных из БД по ID
-        //return perspectiveManRepo.findById(id).orElse(null);
-        return service.getById(id);
+        return service.getById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
+
     // Метод для добавления новых данных
-    @Operation(summary = "Добавить нового кандидата")
-    @ApiResponse(responseCode = "201", description = "Кандидат создан")
     @PostMapping
+    @Operation(summary = "Добавить нового кандидата")
     public ResponseEntity<PerspectiveMan> create(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Данные кандидата",
                     required = true,
                     content = @Content(schema = @Schema(implementation = PerspectiveMan.class))
-            )//PerspectiveMan createPerspectiveMan(@RequestBody PerspectiveMan perspectiveMan) {
-        // Логика для добавления данных в БД
-        //return perspectiveManRepo.save(perspectiveMan);
-    //}
-            @RequestBody PerspectiveMan man
-    ) {
-        return ResponseEntity.status(201).body((PerspectiveMan) service.create(man));
+            )
+            @RequestBody PerspectiveMan man)
+    {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(man));
     }
 
-    @Operation(summary = "Обновить данные кандидата")
-    @ApiResponse(responseCode = "200", description = "Кандидат обновлен")
-    @ApiResponse(responseCode = "400", description = "Ошибка обновления")
-    // Метод для обновления данных
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updatePerspectiveMan(@PathVariable Long id, @RequestBody PerspectiveMan man) {
-        // Логика для обновления данных в БД
-        //        perspectiveMan.setId(id);//
-        //return perspectiveManRepo.save(perspectiveMan);
-        return ResponseEntity.status(200).body(service.update(man));
+    @Operation(summary = "Обновить данные кандидата")
+    // Метод для обновления данных
+    public ResponseEntity<Object> update(
+            @PathVariable Long id,
+            @RequestBody PerspectiveMan manDetails) {
+        try {
+            return ResponseEntity.ok(service.update(id, manDetails));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @Operation(summary = "Удаление кандидата")
-    @ApiResponse(responseCode = "204", description = "Кандидат удален")
-    @ApiResponse(responseCode = "400", description = "Неверный запрос")
-    @ApiResponse(responseCode = "404", description = "Кандидат не найден")
-    // Метод для удаления данных
     @DeleteMapping("/{id}")
-    public ResponseEntity deletePerspectiveMan(@PathVariable Long id, @RequestBody PerspectiveMan man) {
-        // Логика для удаления данных из БД
-     //   perspectiveManRepo.deleteById(id);
-        ResponseEntity<Object> body = ResponseEntity.status(204).body(service);
-        return body;
+    @Operation(summary = "Удаление кандидата")
+    // Метод для удаления данных
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 };
