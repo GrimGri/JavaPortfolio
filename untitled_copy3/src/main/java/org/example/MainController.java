@@ -24,15 +24,15 @@ public class MainController {
     private PerspectiveManService service;
 
     @GetMapping
-    @Operation(summary = "Получить всех кандидатов")
+    @Operation(summary = "Получить всех личностей")
     public List<PerspectiveMan> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Найти кандидата по ID")
+    @Operation(summary = "Найти личность по ID")
     public ResponseEntity<PerspectiveMan> getById(
-            @Parameter(description = "ID кандидата", example = "1")
+            @Parameter(description = "ID личности", example = "1")
             @PathVariable Long id)
     {
         return service.getById(id)
@@ -42,35 +42,35 @@ public class MainController {
 
     // Метод для добавления новых данных
     @PostMapping
-    @Operation(summary = "Добавить нового кандидата")
+    @Operation(summary = "Добавить новую личность")
     public ResponseEntity<PerspectiveMan> create(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Данные кандидата",
+                    description = "Данные личности",
                     required = true,
                     content = @Content(schema = @Schema(implementation = PerspectiveMan.class))
             )
             @RequestBody PerspectiveMan man)
     {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(man));
+//        PerspectiveMan man = toEntity(request);
+ //       return ResponseEntity.status(201).body(service.create(man));
+           return ResponseEntity.status(HttpStatus.CREATED).body(service.create(man));
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Обновить данные кандидата")
+    @Operation(summary = "Обновить данные личности")
     // Метод для обновления данных
-    public ResponseEntity<Object> update(
+    public ResponseEntity<PerspectiveMan> update(
             @PathVariable Long id,
             @RequestBody PerspectiveMan manDetails) {
         try {
-            return ResponseEntity.ok(service.update(id, manDetails));
+            return ResponseEntity.ok(service.update(id, manDetails).getBody());
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
-    public boolean existsById(Long id) {
-        return service.existsById(id);
-    }
+
     @DeleteMapping("/{id}")
-    @Operation(summary = "Удаление кандидата")
+    @Operation(summary = "Удаление личности")
     // Метод для удаления данных
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (!service.existsById(id)) {

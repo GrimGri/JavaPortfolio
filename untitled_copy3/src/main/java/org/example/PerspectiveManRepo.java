@@ -9,5 +9,5 @@ public interface PerspectiveManRepo extends JpaRepository<PerspectiveMan, Long> 
     List<PerspectiveMan> findAll();
     PerspectiveMan save(PerspectiveMan man);
 //    Object update(PerspectiveMan man);
-    void delete(Long id);
+    void deleteById(Long id);
 }
