@@ -9,8 +9,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.hibernate.query.sqm.EntityTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,14 @@ public class MainController {
     @Autowired
     private PerspectiveManService service;
 
+    //Вспомогательный метод
+    private PerspectiveMan convertToEntity(PerspectiveManRequest request) {
+        PerspectiveMan entity = new PerspectiveMan();
+        entity.setName(request.getName());
+        entity.setSalary(request.getSalary());
+        entity.setMarried(request.getMarried());
+        return entity;
+    }
     @GetMapping
     @Operation(summary = "Получить всех личностей")
     public List<PerspectiveMan> getAll() {
@@ -47,36 +57,62 @@ public class MainController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Данные личности",
                     required = true,
-                    content = @Content(schema = @Schema(implementation = PerspectiveMan.class))
+                    content = @Content(schema = @Schema(implementation = PerspectiveManRequest.class))
             )
-            @RequestBody PerspectiveMan man)
+            @Valid
+            @RequestBody PerspectiveManRequest request)
     {
+        PerspectiveMan man = convertToEntity(request);//new PerspectiveMan();
+    //    man.setName(request.getName());
+    //    man.setSalary(request.getSalary());
+    //    man.setMarried(request.getMarried());
 //        PerspectiveMan man = toEntity(request);
- //       return ResponseEntity.status(201).body(service.create(man));
-           return ResponseEntity.status(HttpStatus.CREATED).body(service.create(man));
+//        return ResponseEntity.status(201).body(service.create(man));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(man));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Обновить данные личности")
     // Метод для обновления данных
     public ResponseEntity<PerspectiveMan> update(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Данные для обновления",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = PerspectiveManRequest.class)))
             @PathVariable Long id,
-            @RequestBody PerspectiveMan manDetails) {
-        try {
-            return ResponseEntity.ok(service.update(id, manDetails).getBody());
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+            @RequestBody PerspectiveManRequest request) {
+        PerspectiveMan updateTemplate = convertToEntity(request);//new PerspectiveMan();
+        //updateTemplate.setName(request.getName());
+        //updateTemplate.setSalary(request.getSalary());
+        //updateTemplate.setMarried(request.getMarried());
+        return ResponseEntity.ok(service.update(id, updateTemplate));
+//                PerspectiveMan manDetails = convertToEntity(request);//new PerspectiveMan();
+//                manDetails.setName(request.getName());
+//                manDetails.setSalary(request.getSalary());
+//                manDetails.setMarried(request.getMarried());
+//                return ResponseEntity.ok(service.update(id, manDetails));
     }
+
+//    public void delete(Long id) {
+//        if (!repository.existsById(id)) {
+//            throw new EntityNotFoundException("PerspectiveMan not found with id: " + id);
+//        }
+//        repository.deleteById(id);
+//    }
+
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление личности")
     // Метод для удаления данных
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (!service.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
+//        if (!service.existsById(id)) {
+//            return ResponseEntity.notFound().build();
+//        }
+    try {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    } catch (EntityNotFoundException e) {
+        return ResponseEntity.notFound().build();
+        }
     }
 };

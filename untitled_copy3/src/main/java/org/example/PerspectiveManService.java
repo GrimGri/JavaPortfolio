@@ -30,7 +30,7 @@ public class PerspectiveManService {
         log.info("Creating new perspective man: {}", man.getName());
         return repository.save(man);
     }
-    public ResponseEntity<PerspectiveMan> update(Long id, PerspectiveMan manDetails) {
+    public PerspectiveMan update(Long id, PerspectiveMan manDetails) {
         PerspectiveMan man = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PerspectiveMan not found with id: " + id));
         man.setName(manDetails.getName());
@@ -40,6 +40,7 @@ public class PerspectiveManService {
     }
 
     public void delete(Long id) {
+        log.warn("Deleting perspective man with ID: {}", id);
         repository.deleteById(id);
     }
 }
