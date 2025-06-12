@@ -40,6 +40,9 @@ public class PerspectiveManService {
     }
 
     public void delete(Long id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("PerspectiveMan not found with id: " + id);
+        }
         log.warn("Deleting perspective man with ID: {}", id);
         repository.deleteById(id);
     }

@@ -1,7 +1,5 @@
 package org.example;
 
-//import java.io.File;//импорт класса для чтения файла
-//import java.io.IOException;//импорт класса эксепшн
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
