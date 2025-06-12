@@ -1,50 +1,66 @@
 package org.example;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
+@Transactional
 public class PerspectiveManService {
+    private final PerspectiveManRepo repository;
+    private final PerspectiveManMapper mapper;
     @Autowired
-    private PerspectiveManRepo repository;
-
-    public List<PerspectiveMan> getAll() {
-        return repository.findAll();
+    public PerspectiveManService(
+            PerspectiveManRepo repository,
+            PerspectiveManMapper mapper
+    ) {
+        this.repository = repository;
+        this.mapper = mapper;
     }
 
-    public Optional<PerspectiveMan> getById(Long id) {
-        return repository.findById(id);
+    public Page<PerspectiveMan> getAll(Pageable pageable) {
+        //log.debug("Fetching all perspective men with pagination");
+        return repository.findAll(pageable);
     }
 
-    public boolean existsById(Long id) {
-        return repository.existsById(id);
+    public PerspectiveMan getById(Long id){
+        //log.debug("Fetching perspective man by ID: {}", id);
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "PerspectiveMan not found with id: " + id
+                ));
     }
 
     public PerspectiveMan create(PerspectiveMan man) {
-        log.info("Creating new perspective man: {}", man.getName());
+        //log.info("Creating new perspective man: {}", man.getName());
         return repository.save(man);
     }
-    public PerspectiveMan update(Long id, PerspectiveMan manDetails) {
-        PerspectiveMan man = repository.findById(id)
+    public PerspectiveMan update(Long id, PerspectiveManRequest request){ //manDetails) {
+        //log.info("Updating perspective man with ID: {}", id);
+        PerspectiveMan entity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PerspectiveMan not found with id: " + id));
-        man.setName(manDetails.getName());
-        man.setSalary(manDetails.getSalary());
-        man.setMarried(manDetails.getMarried());
-        return repository.save(man);
+        mapper.updateFromRequest(request, entity);
+        return entity;
     }
 
     public void delete(Long id) {
-        if (!repository.existsById(id)) {
-            throw new EntityNotFoundException("PerspectiveMan not found with id: " + id);
+        //log.warn("Deleting perspective man with ID: {}", id);
+        //if (!repository.existsById(id)) {
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new EntityNotFoundException(
+                    "PerspectiveMan not found with id: " + id
+            );
         }
-        log.warn("Deleting perspective man with ID: {}", id);
-        repository.deleteById(id);
+        //repository.deleteById(id);
     }
 }
 

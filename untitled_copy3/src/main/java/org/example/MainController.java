@@ -12,6 +12,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.hibernate.query.sqm.EntityTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +24,16 @@ import org.springframework.http.HttpStatus;
 @RequestMapping("/api/perspectiveMan")
 @Tag(name = "Perspective Man API", description = "Управление перспективными личностями")
 public class MainController {
+    private final PerspectiveManService service;
+    private final PerspectiveManMapper mapper;
     @Autowired
-    private PerspectiveManService service;
-
+    public MainController(
+            PerspectiveManService service,
+            PerspectiveManMapper mapper
+    ) {
+        this.service = service;
+        this.mapper = mapper;
+    }
     //Вспомогательный метод
     private PerspectiveMan convertToEntity(PerspectiveManRequest request) {
         PerspectiveMan entity = new PerspectiveMan();
@@ -35,34 +44,36 @@ public class MainController {
     }
     @GetMapping
     @Operation(summary = "Получить всех личностей")
-    public List<PerspectiveMan> getAll() {
-        return service.getAll();
+    public Page<PerspectiveMan> getAll(Pageable pageable) {
+        return service.getAll(pageable);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Найти личность по ID")
     public ResponseEntity<PerspectiveMan> getById(
-            @Parameter(description = "ID личности", example = "1")
-            @PathVariable Long id)
+             @PathVariable Long id)
     {
-        return service.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        try {
+            return ResponseEntity.ok(service.getById(id));
+        } catch (EntityNotFoundException e)
+        {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // Метод для добавления новых данных
     @PostMapping
     @Operation(summary = "Добавить новую личность")
     public ResponseEntity<PerspectiveMan> create(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Данные личности",
-                    required = true,
-                    content = @Content(schema = @Schema(implementation = PerspectiveManRequest.class))
-            )
+       //     @io.swagger.v3.oas.annotations.parameters.RequestBody(
+       //             description = "Данные личности",
+       //             required = true,
+       //             content = @Content(schema = @Schema(implementation = PerspectiveManRequest.class))
+       //     )
             @Valid
             @RequestBody PerspectiveManRequest request)
     {
-        PerspectiveMan man = convertToEntity(request);//new PerspectiveMan();
+        PerspectiveMan man =  mapper.toEntity(request);//convertToEntity(request);//new PerspectiveMan();
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(man));
     }
 
@@ -70,26 +81,16 @@ public class MainController {
     @Operation(summary = "Обновить данные личности")
     // Метод для обновления данных
     public ResponseEntity<PerspectiveMan> update(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Данные для обновления",
-                    required = true,
-                    content = @Content(schema = @Schema(implementation = PerspectiveManRequest.class)))
-            @PathVariable Long id,
-            @RequestBody PerspectiveManRequest request) {
-        PerspectiveMan updateTemplate = convertToEntity(request);//new PerspectiveMan();
-        return ResponseEntity.ok(service.update(id, updateTemplate));
+           @PathVariable Long id,
+           @RequestBody PerspectiveManRequest request) {
+        return ResponseEntity.ok(service.update(id, request));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление личности")
     // Метод для удаления данных
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-    try {
         service.delete(id);
         return ResponseEntity.noContent().build();
-    } catch (EntityNotFoundException e) {
-        return ResponseEntity.notFound().build();
-        }
     }
-
-};
+}
