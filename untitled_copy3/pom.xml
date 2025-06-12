@@ -16,7 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Унифицированные версии -->
         <spring-boot.version>3.3.4</spring-boot.version>
-        <springdoc.version>2.6.0</springdoc.version>
+        <springdoc.version>2.5.0</springdoc.version>
     </properties>
 
 
@@ -59,6 +59,12 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
             <version>2.2.224</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

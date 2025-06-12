@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PerspectiveManRepo extends JpaRepository<PerspectiveMan, Long> {
     List<PerspectiveMan> findAll();
-    Object save(PerspectiveMan man);
+    PerspectiveMan save(PerspectiveMan man);
 //    Object update(PerspectiveMan man);
-    void delete(PerspectiveMan man);
+    void delete(Long id);
 }

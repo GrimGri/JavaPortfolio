@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
+import org.hibernate.query.sqm.EntityTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -60,15 +62,20 @@ public class MainController {
             @RequestBody PerspectiveMan manDetails) {
         try {
             return ResponseEntity.ok(service.update(id, manDetails));
-        } catch (Exception e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
-
+    public boolean existsById(Long id) {
+        return service.existsById(id);
+    }
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление кандидата")
     // Метод для удаления данных
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (!service.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

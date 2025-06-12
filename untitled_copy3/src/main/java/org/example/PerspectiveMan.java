@@ -5,16 +5,26 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "perspectiveMan")
+@Table(name = "perspective_man")
 
 public class PerspectiveMan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    @Size(min = 2, max = 50)
     private String name;
+
+    @Min(0)
     private Long salary;
+
+    @NotNull
     private Boolean married;
 
     public Long getId() { return id; }
