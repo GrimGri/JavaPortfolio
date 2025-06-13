@@ -14,4 +14,5 @@ public interface PerspectiveManMapper {
             PerspectiveManRequest request,
             @MappingTarget PerspectiveMan entity
     );
+    PerspectiveManResponse toResponse(PerspectiveMan entity);
 }

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-13T22:21:55+0500",
+    date = "2025-06-14T00:24:15+0500",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 24.0.1 (Oracle Corporation)"
 )
 @Component
@@ -35,5 +35,16 @@ public class PerspectiveManMapperImpl implements PerspectiveManMapper {
         entity.setName( request.getName() );
         entity.setSalary( request.getSalary() );
         entity.setMarried( request.getMarried() );
+    }
+
+    @Override
+    public PerspectiveManResponse toResponse(PerspectiveMan entity) {
+        if ( entity == null ) {
+            return null;
+        }
+
+        PerspectiveManResponse perspectiveManResponse = new PerspectiveManResponse();
+
+        return perspectiveManResponse;
     }
 }

@@ -17,13 +17,14 @@ public class SecurityConfig {
         http.
                 csrf(AbstractHttpConfigurer::disable).
                 authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()  //     .anyRequest().permitAll() // Для демо-режима
-                        .requestMatchers(HttpMethod.GET, "/api/perspectiveMan/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()  //
+                        .requestMatchers(HttpMethod.GET, "/api/perspectiveMan").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/perspectiveMan/{id}").authenticated() //
                         .requestMatchers(HttpMethod.POST, "/api/perspectiveMan").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/perspectiveMan/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/perspectiveMan/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults()); // Включить базовую аутентификацию//.csrf(AbstractHttpConfigurer::disable);
+                .httpBasic(Customizer.withDefaults()); // Включить базовую аутентификацию//
         return http.build();
     }
 }

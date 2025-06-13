@@ -9,10 +9,11 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Entity
 @Table(name = "perspective_man")
-
+@Data
 public class PerspectiveMan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

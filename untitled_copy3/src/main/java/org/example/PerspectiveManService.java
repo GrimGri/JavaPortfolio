@@ -26,12 +26,12 @@ public class PerspectiveManService {
     }
 
     public Page<PerspectiveMan> getAll(Pageable pageable) {
-        //log.debug("Fetching all perspective men with pagination");
+        log.debug("Fetching all perspective men with pagination");
         return repository.findAll(pageable);
     }
 
     public PerspectiveMan getById(Long id){
-        //log.debug("Fetching perspective man by ID: {}", id);
+        log.debug("Fetching perspective man by ID: {}", id);
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "PerspectiveMan not found with id: " + id
@@ -39,11 +39,10 @@ public class PerspectiveManService {
     }
 
     public PerspectiveMan create(PerspectiveMan man) {
-        //log.info("Creating new perspective man: {}", man.getName());
+        log.info("Creating new perspective man: {}", man.getName());
         return repository.save(man);
     }
     public PerspectiveMan update(Long id, PerspectiveManRequest request){ //manDetails) {
-        //log.info("Updating perspective man with ID: {}", id);
         PerspectiveMan entity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PerspectiveMan not found with id: " + id));
         mapper.updateFromRequest(request, entity);
@@ -51,7 +50,7 @@ public class PerspectiveManService {
     }
 
     public void delete(Long id) {
-        //log.warn("Deleting perspective man with ID: {}", id);
+        log.warn("Deleting perspective man with ID: {}", id);
         //if (!repository.existsById(id)) {
         try {
             repository.deleteById(id);
