@@ -34,17 +34,7 @@ public class MainController {
         this.service = service;
         this.mapper = mapper;
     }
-    /*
-    //Вспомогательный метод
-    private PerspectiveMan convertToEntity(PerspectiveManRequest request) {
-        PerspectiveMan entity = new PerspectiveMan();
-        entity.setName(request.getName());
-        entity.setSalary(request.getSalary());
-        entity.setMarried(request.getMarried());
-        return entity;
-    }
 
-     */
     @GetMapping
     @Operation(summary = "Получить всех личностей")
     public Page<PerspectiveMan> getAll(Pageable pageable) {
