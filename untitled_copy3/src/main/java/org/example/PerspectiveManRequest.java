@@ -11,6 +11,7 @@ public class PerspectiveManRequest {
     private String name;
 
     @PositiveOrZero
+    @NotNull
     private Long salary;
 
     @NotNull
