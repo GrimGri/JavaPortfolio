@@ -5,11 +5,22 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-15T09:59:35+0500",
+    date = "2025-06-15T21:19:51+0500",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 24.0.1 (Oracle Corporation)"
 )
 @Component
 public class PerspectiveManMapperImpl implements PerspectiveManMapper {
+
+    @Override
+    public void updateFromRequest(PerspectiveManRequest request, PerspectiveMan entity) {
+        if ( request == null ) {
+            return;
+        }
+
+        entity.setName( request.getName() );
+        entity.setSalary( request.getSalary() );
+        entity.setMarried( request.getMarried() );
+    }
 
     @Override
     public PerspectiveMan toEntity(PerspectiveManRequest request) {
@@ -24,17 +35,6 @@ public class PerspectiveManMapperImpl implements PerspectiveManMapper {
         perspectiveMan.setMarried( request.getMarried() );
 
         return perspectiveMan;
-    }
-
-    @Override
-    public void updateFromRequest(PerspectiveManRequest request, PerspectiveMan entity) {
-        if ( request == null ) {
-            return;
-        }
-
-        entity.setName( request.getName() );
-        entity.setSalary( request.getSalary() );
-        entity.setMarried( request.getMarried() );
     }
 
     @Override

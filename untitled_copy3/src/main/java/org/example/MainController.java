@@ -34,11 +34,14 @@ public class MainController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Найти личность по ID")
-    public ResponseEntity<PerspectiveMan> getById(
+    public ResponseEntity<PerspectiveManResponse> getById(
              @PathVariable Long id)
     {
         try {
-            return ResponseEntity.ok(service.getById(id));//mapper.toResponse(entity));//service.getById(id));
+            PerspectiveMan entity = service.getById(id);
+            //return ResponseEntity.ok(service.getById(id));//mapper.toResponse(entity));//service.getById(id));
+            PerspectiveManResponse response = mapper.toResponse(entity); // Используем маппер
+            return ResponseEntity.ok(response);
         } catch (EntityNotFoundException e)
         {
             return ResponseEntity.notFound().build();
@@ -48,13 +51,17 @@ public class MainController {
     // Метод для добавления новых данных
     @PostMapping
     @Operation(summary = "Добавить новую личность")
-    public ResponseEntity<PerspectiveMan> create(
+    //public ResponseEntity<PerspectiveMan> create(
+    public ResponseEntity<PerspectiveManResponse> create(
+
             @Valid
             @RequestBody PerspectiveManRequest request)
     {
-        PerspectiveMan man =  mapper.toEntity(request);
-        //PerspectiveMan created = service.create(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(man));//mapper.toResponse(created));//service.create(man));
+    //    PerspectiveMan man =  mapper.toEntity(request);
+        PerspectiveMan entity =  mapper.toEntity(request);
+        PerspectiveMan created = service.create(entity);
+        //return ResponseEntity.status(HttpStatus.CREATED).body(service.create(man));//
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(created));
     }
 
     @PutMapping("/{id}")

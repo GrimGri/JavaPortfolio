@@ -39,13 +39,17 @@ public class PerspectiveManService {
 
     public PerspectiveMan create(PerspectiveMan man) {
         log.info("Creating new perspective man: {}", man.getName());
+        if (man.getId() != null) {
+            throw new IllegalStateException("New entity must not have id");
+        }
         return repository.save(man);
     }
     public PerspectiveMan update(Long id, PerspectiveManRequest request){
         PerspectiveMan entity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PerspectiveMan not found with id: " + id));
         mapper.updateFromRequest(request, entity);
-        return entity;
+        return repository.save(entity); // Сохраняем изменения
+        //return entity;
     }
 
     public void delete(Long id) {

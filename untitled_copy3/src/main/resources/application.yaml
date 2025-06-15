@@ -15,6 +15,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+        event:
+          merge:
+            entity_copy_observer: allow
 # Настройки Swagger
 springdoc:
   api-docs:

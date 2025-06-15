@@ -8,13 +8,14 @@ import org.springframework.data.domain.Page;
 // Создать маппер
 @Mapper(componentModel = "spring")
 public interface PerspectiveManMapper {
-    PerspectiveMan toEntity(PerspectiveManRequest request);
+    //PerspectiveMan toEntity(PerspectiveManRequest request);
 
     @Mapping(target = "id", ignore = true)
     void updateFromRequest(
             PerspectiveManRequest request,
             @MappingTarget PerspectiveMan entity
     );
-    //Page<PerspectiveManResponse> toResponsePage(Page<PerspectiveMan> page);
+    PerspectiveMan toEntity(PerspectiveManRequest request);
     PerspectiveManResponse toResponse(PerspectiveMan entity);
+    //PerspectiveManResponse toResponse(PerspectiveMan entity);
 }

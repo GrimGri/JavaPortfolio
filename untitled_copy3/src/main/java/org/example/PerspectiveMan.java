@@ -12,7 +12,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Entity
-@Table(name = "perspective")
+@Table(name = "perspective",
+                uniqueConstraints = {
+                        @UniqueConstraint(columnNames = "name")
+                }
+        )
 @Data
 public class PerspectiveMan {
     @Id
