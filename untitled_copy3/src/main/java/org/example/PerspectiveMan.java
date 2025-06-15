@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+
 
 @Entity
 @Table(name = "perspective",
@@ -17,7 +17,6 @@ import lombok.Data;
                         @UniqueConstraint(columnNames = "name")
                 }
         )
-@Data
 public class PerspectiveMan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,15 +33,15 @@ public class PerspectiveMan {
     @NotNull
     private Boolean married;
 
-    //public Long getId() { return id; }
-    //public void setId(Long id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    //public String getName() { return name; }
-    //public void setName(String name) { this.name = name; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    //public Long getSalary() { return salary; }
-    //public void setSalary(Long salary) { this.salary = salary; }
+    public Long getSalary() { return salary; }
+    public void setSalary(Long salary) { this.salary = salary; }
 
-    //public Boolean getMarried() { return married; }
-    //public void setMarried(Boolean married) { this.married = married; }
+    public Boolean getMarried() { return married; }
+    public void setMarried(Boolean married) { this.married = married; }
 }

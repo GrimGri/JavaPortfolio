@@ -2,17 +2,19 @@ package org.example;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
+
 @Transactional
 public class PerspectiveManService {
+    private static final Logger log = LoggerFactory.getLogger(PerspectiveManService.class);
     private final PerspectiveManRepo repository;
     private final PerspectiveManMapper mapper;
     @Autowired
