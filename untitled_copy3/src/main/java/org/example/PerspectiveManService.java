@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -42,7 +41,7 @@ public class PerspectiveManService {
         log.info("Creating new perspective man: {}", man.getName());
         return repository.save(man);
     }
-    public PerspectiveMan update(Long id, PerspectiveManRequest request){ //manDetails) {
+    public PerspectiveMan update(Long id, PerspectiveManRequest request){
         PerspectiveMan entity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PerspectiveMan not found with id: " + id));
         mapper.updateFromRequest(request, entity);
@@ -51,7 +50,6 @@ public class PerspectiveManService {
 
     public void delete(Long id) {
         log.warn("Deleting perspective man with ID: {}", id);
-        //if (!repository.existsById(id)) {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException ex) {
@@ -59,7 +57,6 @@ public class PerspectiveManService {
                     "PerspectiveMan not found with id: " + id
             );
         }
-        //repository.deleteById(id);
     }
 }
 

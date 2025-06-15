@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Entity
-@Table(name = "perspective_man")
+@Table(name = "java")
 @Data
 public class PerspectiveMan {
     @Id
