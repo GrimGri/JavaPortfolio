@@ -6,18 +6,24 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "perspective_man")
 
+@Entity
+@Table(name = "perspective",
+                uniqueConstraints = {
+                        @UniqueConstraint(columnNames = "name")
+                }
+        )
 public class PerspectiveMan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank
     @Size(min = 2, max = 50)
     private String name;
 
