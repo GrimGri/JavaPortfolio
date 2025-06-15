@@ -28,8 +28,8 @@ public class MainController {
 
     @GetMapping
     @Operation(summary = "Получить всех личностей")
-    public Page<PerspectiveMan> getAll(Pageable pageable) {
-        return service.getAll(pageable);
+    public Page<PerspectiveManResponse> getAll(Pageable pageable) {
+        return service.getAll(pageable).map(mapper::toResponse);
     }
 
     @GetMapping("/{id}")
@@ -38,7 +38,7 @@ public class MainController {
              @PathVariable Long id)
     {
         try {
-            return ResponseEntity.ok(service.getById(id));
+            return ResponseEntity.ok(service.getById(id));//mapper.toResponse(entity));//service.getById(id));
         } catch (EntityNotFoundException e)
         {
             return ResponseEntity.notFound().build();
@@ -53,16 +53,18 @@ public class MainController {
             @RequestBody PerspectiveManRequest request)
     {
         PerspectiveMan man =  mapper.toEntity(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(man));
+        //PerspectiveMan created = service.create(entity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(man));//mapper.toResponse(created));//service.create(man));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Обновить данные личности")
     // Метод для обновления данных
-    public ResponseEntity<PerspectiveMan> update(
+    public ResponseEntity<PerspectiveManResponse> update(
            @PathVariable Long id,
            @RequestBody PerspectiveManRequest request) {
-        return ResponseEntity.ok(service.update(id, request));
+        PerspectiveMan updated = service.update(id, request);
+        return ResponseEntity.ok(mapper.toResponse(updated));//service.update(id, request));
     }
 
     @DeleteMapping("/{id}")

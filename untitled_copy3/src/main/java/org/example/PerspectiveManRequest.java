@@ -7,6 +7,9 @@ import lombok.Data;
 
 @Data
 public class PerspectiveManRequest {
+
+    //private Long id; // Добавляем поле id
+
     @NotBlank
     private String name;
 

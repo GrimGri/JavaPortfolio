@@ -21,13 +21,18 @@ public class SecurityConfig {
         http.
                 csrf(AbstractHttpConfigurer::disable).
                 authorizeHttpRequests(auth -> auth
+                        // Разрешить Swagger без аутентификации
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()  //
-                        .requestMatchers(HttpMethod.GET, "/api/perspectiveMan").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/perspectiveMan/{id}").authenticated() //
+
+                        // Разрешить GET-запросы без аутентификации
+                        .requestMatchers(HttpMethod.GET, "/api/perspectiveMan/**").permitAll()
+                        //.requestMatchers(HttpMethod.GET, "/api/perspectiveMan/{id}").authenticated() //
+
+                        // Требовать роль ADMIN для операций изменения
                         .requestMatchers(HttpMethod.POST, "/api/perspectiveMan").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/perspectiveMan/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/perspectiveMan/**").hasRole("ADMIN")
-                        .requestMatchers("/api/perspectiveMan/**").permitAll()
+                        //.requestMatchers("/api/perspectiveMan/**").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults()); // Включить базовую аутентификацию//
         return http.build();
