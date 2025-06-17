@@ -12,8 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;//Аннотации
 import org.springframework.web.bind.annotation.ExceptionHandler;//Аннотации
 
-@ControllerAdvice//Пометка класса как глобальнго обработчика исключений обрабатываемый Spring
-public class GlobalExceptionHandler {//Объявление класса-обработчика исключений, public для доступа Spring
+@ControllerAdvice//Пометка класса как глобальнго обработчика исключений обрабатываемый спринг
+public class GlobalExceptionHandler {//Объявление класса обработчика исключений, паблик для доступа спринга
 
     @ExceptionHandler(MethodArgumentNotValidException.class)//Обработчик ошибок валидации
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
